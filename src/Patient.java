@@ -1,6 +1,3 @@
-package java.model;
-
-import java.model.utils.SicknessType;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;

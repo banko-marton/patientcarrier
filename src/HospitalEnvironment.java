@@ -1,26 +1,29 @@
-package java.env;
-
+import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import jason.environment.Environment;
 import jason.environment.grid.Location;
 
-import java.model.Department;
-import java.model.HospitalModel;
-import java.model.Patient;
-import java.model.Reception;
-import java.model.agents.Carrier;
-import java.model.agents.Manager;
-import java.model.utils.SicknessType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-/* Agent BELIEFS as literals */
-// ..
-/* Agent ACTIONS as literals */
-// ..
+
 
 public class HospitalEnvironment extends Environment {
+    /* Agent BELIEFS as literals */
+    // Manager
+    public static final Literal newPatient = Literal.parseLiteral("!newPatient(action_id,patient_id,loc_to)");
+
+
+    /// Carrier
+    // belief
+    public static final Literal position = Literal.parseLiteral("pos(a,x,y)");
+    public static final Literal distance = Literal.parseLiteral("dist(a,d)");
+    // action
+    public static final Literal move_towards = Literal.parseLiteral("move_towards(x,y)");
+    public static final Literal pick = Literal.parseLiteral("pick");
+    public static final Literal drop = Literal.parseLiteral("drop");
+
 
     private HashMap<Department, Location> departments;
     private HashMap<Department, ArrayList<Location>> routesFromReception;
@@ -81,7 +84,7 @@ public class HospitalEnvironment extends Environment {
     }
 
     private void updateBelief(){
-        clearAllPercepts();
+        //clearAllPercepts();
 
 
     }
@@ -99,6 +102,8 @@ public class HospitalEnvironment extends Environment {
         int age = 10 + r.nextInt(90);
         Patient p = new Patient(age, type);
         reception.placePatient(p);
+
+        addPercept("testManager", Literal.parseLiteral("!newPatient(" + p.getId() +"," + p.getId() +","+ p.getType() + ")"));
     }
 
 }

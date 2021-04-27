@@ -1,13 +1,4 @@
-package java.model.agents;
-
-
-
 import jason.environment.grid.Location;
-
-import java.model.Department;
-import java.model.HospitalModel;
-import java.model.Patient;
-import java.model.utils.HospitalElement;
 
 
 public class Carrier {

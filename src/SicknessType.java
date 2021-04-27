@@ -1,5 +1,3 @@
-package java.model.utils;
-
 public enum SicknessType {
     Anaesthetics,
     Cardiology,

@@ -1,5 +1,3 @@
-package java.model.utils;
-
 public class QItem {
     public int row;
     public int col;

@@ -1,13 +1,6 @@
-package java.model;
-
 import jason.environment.grid.GridWorldModel;
 import jason.environment.grid.Location;
 
-import java.model.agents.Carrier;
-import java.model.agents.Manager;
-import java.model.utils.HospitalElement;
-import java.model.utils.QItem;
-import java.model.utils.SicknessType;
 import java.util.*;
 
 public class HospitalModel extends GridWorldModel {

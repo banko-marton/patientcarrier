@@ -1,5 +1,3 @@
-package java.model.agents;
-
 public class Manager {
     private int id;
 

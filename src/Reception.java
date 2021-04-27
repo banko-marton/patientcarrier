@@ -1,7 +1,3 @@
-package java.model;
-
-import java.model.utils.HospitalElement;
-import java.model.utils.SicknessType;
 import java.util.LinkedList;
 import java.util.Random;
 

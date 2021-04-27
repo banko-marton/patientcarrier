@@ -1,5 +1,3 @@
-package java.env;
-
 import jason.environment.grid.GridWorldModel;
 import jason.environment.grid.GridWorldView;
 
@@ -7,12 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.model.Department;
-import java.model.HospitalModel;
-import java.model.agents.Carrier;
-import java.model.utils.SicknessType;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 public class HospitalView extends GridWorldView {
