@@ -12,7 +12,7 @@ import java.util.Random;
 public class HospitalEnvironment extends Environment {
     /* Agent BELIEFS as literals */
     // Manager
-    public static final Literal newPatient = Literal.parseLiteral("!newPatient(action_id,patient_id,loc_to)");
+    public static final Literal newPatient = Literal.parseLiteral("newPatient(action_id,patient_id,loc_to)");
 
 
     /// Carrier
@@ -34,7 +34,7 @@ public class HospitalEnvironment extends Environment {
 
     private HospitalModel hospitalModel;
 
-    public HospitalEnvironment(int hospitalSize, int numOfCarriers){
+    /*public HospitalEnvironment(int hospitalSize, int numOfCarriers){
         hospitalModel = new HospitalModel(hospitalSize, numOfCarriers);
         // placing the front door
         reception = new Reception(20);
@@ -59,9 +59,43 @@ public class HospitalEnvironment extends Environment {
             hospitalModel.placeAgent(i+1);
             carrierAgents.add(new Carrier(i+1, new Location(x+i, 1)));
         }
-    }
+    }*/
+    HospitalView hospitalView;
+
     @Override
     public void init(String[] args) {
+    for(String s : args)
+        System.out.println(s);
+	int hospitalSize = 24;
+	int numOfCarriers = 1;
+
+
+        hospitalModel = new HospitalModel(hospitalSize, numOfCarriers);
+        hospitalView = new HospitalView(hospitalModel);
+        hospitalView.setEnv(this);
+        // placing the front door
+        reception = new Reception(20);
+        receptionPosition = new Location(hospitalSize / 2, 0);
+        hospitalModel.placeReception(receptionPosition);
+        // placing the departments randomly
+        departments = new HashMap<>();
+        routesFromReception = new HashMap<>();
+        int depID = 0;
+        for(SicknessType depType : SicknessType.values()){
+            Department department = new Department(depType);
+            Location depPos = hospitalModel.placeDepartment(depID++);
+            departments.put(department, depPos);
+            routesFromReception.put(department, hospitalModel.findShortestPathFromReception(depPos));
+        }
+
+        // initializing Agents
+        managerAgent = new Manager(0);
+        carrierAgents = new ArrayList<>();
+        for(int i=0; i<numOfCarriers; i++){
+            int x = (hospitalSize - numOfCarriers) / 2;
+            hospitalModel.placeAgent(i);
+            carrierAgents.add(new Carrier(i, new Location(x+i, 1)));
+        }
 
         clearAllPercepts();
     }
@@ -103,7 +137,7 @@ public class HospitalEnvironment extends Environment {
         Patient p = new Patient(age, type);
         reception.placePatient(p);
 
-        addPercept("testManager", Literal.parseLiteral("!newPatient(" + p.getId() +"," + p.getId() +","+ p.getType() + ")"));
+        addPercept("testManager", Literal.parseLiteral("newPatient(" + p.getId() +"," + p.getId() +","+ p.getType() + ")"));
     }
 
 }

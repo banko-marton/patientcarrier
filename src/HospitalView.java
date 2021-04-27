@@ -1,5 +1,6 @@
 import jason.environment.grid.GridWorldModel;
 import jason.environment.grid.GridWorldView;
+import jason.environment.grid.Location;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.*;
 
 public class HospitalView extends GridWorldView {
     private HospitalEnvironment env;
@@ -14,11 +16,16 @@ public class HospitalView extends GridWorldView {
     public HospitalView(GridWorldModel model) {
         super(model, "Hospital Logistics", 600);
         this.model = (HospitalModel) model;
+        setVisible(true);
+        repaint();
     }
 
     private JPanel updateCapacities(){
         JPanel panel = new JPanel();
-        Set<Department> departments = env.getDepartments().keySet();
+        HashMap<Department, Location> asd = env.getDepartments();
+        if(asd == null) return panel;
+        Set<Department> departments = asd.keySet();
+
         for (Department d : departments){
             panel.add(new JLabel(d.getDepartmentType().toString() + ": " + d.getCurrentCapacity()));
         }
@@ -59,12 +66,12 @@ public class HospitalView extends GridWorldView {
         sp.add(addPatient);
 
         sp.add(new JLabel("Department capacities:"));
-        JPanel capacities = updateCapacities();
-        sp.add(capacities);
+        //JPanel capacities = updateCapacities();
+        //sp.add(capacities);
 
         sp.add(new JLabel("Status of Carrier Agents:"));
-        JPanel agentStatus = updateStatus();
-        sp.add(agentStatus);
+        //JPanel agentStatus = updateStatus();
+        //sp.add(agentStatus);
 
         JPanel p = new JPanel();
 
@@ -115,7 +122,12 @@ public class HospitalView extends GridWorldView {
     }
 
     public static void main(String[] args) throws Exception {
-        HospitalEnvironment env = new HospitalEnvironment(24, 5);
-        env.init(new String[] {"5","50","yes"});
+        HospitalEnvironment env = new HospitalEnvironment(/*24, 5*/);
+        System.out.println("ez szep esjo");
+        env.init(new String[] {"24","1"});
+    }
+
+    public void setEnv(HospitalEnvironment e){
+        this.env = e;
     }
 }

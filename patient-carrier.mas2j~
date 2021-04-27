@@ -2,7 +2,7 @@ MAS patientCarrier {
 
 	infrastructure: Centralised
 
-	environment: HospitalEnvironment(gui)
+	environment: src.HospitalEnvironment
 
 	agents:
 		r1;
