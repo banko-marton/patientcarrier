@@ -64,8 +64,6 @@ public class HospitalEnvironment extends Environment {
 
     @Override
     public void init(String[] args) {
-    for(String s : args)
-        System.out.println(s);
 	int hospitalSize = 24;
 	int numOfCarriers = 1;
 
@@ -77,6 +75,9 @@ public class HospitalEnvironment extends Environment {
         reception = new Reception(20, this);
         receptionPosition = new Location(hospitalSize / 2, 0);
         hospitalModel.placeReception(receptionPosition);
+
+        hospitalModel.placeWalls(4);
+
         // placing the departments randomly
         departments = new HashMap<>();
         routesFromReception = new HashMap<>();
@@ -84,7 +85,6 @@ public class HospitalEnvironment extends Environment {
         for(SicknessType depType : SicknessType.values()){
             Department department = new Department(depType);
             Location depPos = hospitalModel.placeDepartment(depID++);
-            System.out.println("Department Position: " + depPos.x + ", " + depPos);
             departments.put(department, depPos);
             routesFromReception.put(department, hospitalModel.findShortestPathFromReception(depPos));
         }
@@ -150,4 +150,7 @@ public class HospitalEnvironment extends Environment {
         reception.placePatient(p);
     }
 
+    public Location getReceptionPosition(){
+        return receptionPosition;
+    }
 }

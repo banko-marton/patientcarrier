@@ -1,8 +1,10 @@
 import jason.environment.grid.GridWorldModel;
 import jason.environment.grid.GridWorldView;
 import jason.environment.grid.Location;
+import javafx.util.Pair;
 
 import javax.swing.*;
+import javax.swing.text.Position;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,9 +64,7 @@ public class HospitalView extends GridWorldView {
         JPanel panel = new JPanel();
         BoxLayout layoutmgr = new BoxLayout(panel, BoxLayout.PAGE_AXIS);
         panel.setLayout(layoutmgr);
-        System.out.println(env == null);
         HashMap<Department, Location> asd = env.getDepartments();
-        System.out.println(asd == null);
         if(asd == null) return panel;
         Set<Department> departments = asd.keySet();
 
@@ -131,7 +131,7 @@ public class HospitalView extends GridWorldView {
 
     @Override
     public void draw(Graphics g, int x, int y, int object) {
-        if(object >= 10){
+        /*if(object >= 10){
             g.setColor(Color.ORANGE);
             g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
             g.setColor(Color.WHITE);
@@ -142,8 +142,33 @@ public class HospitalView extends GridWorldView {
             g.fillRect(x * cellSizeW - 5*cellSizeW, y * cellSizeH, 10*cellSizeW, cellSizeH);
             g.setColor(Color.WHITE);
             g.drawString("R", x * cellSizeW, y * cellSizeH);
+        }*/
+
+        /*if(object == 1){
+            g.setColor(Color.RED);
+            g.fillRect(x * cellSizeW - 5*cellSizeW, y * cellSizeH, 10*cellSizeW, cellSizeH);
+        }*/
+
+        HashMap<Department, Location> departments = env.getDepartments();
+        int i = 0;
+        for(Map.Entry<Department, Location> p : departments.entrySet()){
+            x = p.getValue().x;
+            y = p.getValue().y;
+            g.setColor(Color.ORANGE);
+            g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
+            g.setColor(Color.BLUE);
+            g.drawString(SicknessType.values()[i++].name().substring(0, 2), x * cellSizeW, y * cellSizeH);
         }
 
+        Location rec = env.getReceptionPosition();
+        x = rec.x;
+        y = rec.y;
+        g.setColor(Color.RED);
+        g.fillRect(x * cellSizeW - 5*cellSizeW, y * cellSizeH, 10*cellSizeW, cellSizeH);
+        g.setColor(Color.WHITE);
+        g.drawString("R", x * cellSizeW, y * cellSizeH);
+
+        updateSidePanel();
         /*updating panels...*/
     }
 
@@ -151,14 +176,13 @@ public class HospitalView extends GridWorldView {
     public void drawAgent(Graphics g, int x, int y, Color c, int id) {
         if (id < 0) return;
         g.setColor(Color.BLUE);
-        g.drawOval(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
+        g.fillOval(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
         ArrayList<Carrier> ac = env.getCarrierAgents();
-        System.out.println(id);
         Carrier carrier = ac.get(id);
 
         if (carrier.getTakenId() != -1L) {
             g.setColor(Color.RED);
-            g.drawOval(x * cellSizeW + cellSizeW / 2, y * cellSizeH + cellSizeH / 2, cellSizeW / 2, cellSizeH / 2);
+            g.fillOval(x * cellSizeW + cellSizeW / 2, y * cellSizeH + cellSizeH / 2, cellSizeW / 2, cellSizeH / 2);
             g.setColor(Color.WHITE);
             g.drawString(String.valueOf(carrier.getTakenId()), x * cellSizeW + cellSizeW / 2, y * cellSizeH + cellSizeH / 2);
         }
@@ -166,7 +190,6 @@ public class HospitalView extends GridWorldView {
 
     public static void main(String[] args) throws Exception {
         HospitalEnvironment env = new HospitalEnvironment(/*24, 5*/);
-        System.out.println("ez szep esjo");
         env.init(new String[] {"24","1"});
     }
 

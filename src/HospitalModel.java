@@ -17,8 +17,6 @@ public class HospitalModel extends GridWorldModel {
         super(hospitalSize, hospitalSize, numOfCarriers);
         layoutSize = hospitalSize;
         nCarriers = numOfCarriers;
-
-
     }
 
     public void placeReception(Location pos){
@@ -28,12 +26,11 @@ public class HospitalModel extends GridWorldModel {
 
     public Location placeDepartment(int depId){
         Location position = getFreePos();
-        add(10+depId, position);
+        add(5+depId, position);
         return position;
     }
 
     public void placeAgent(int aId){
-        System.out.println("Placed agent with id " + aId);
         int x = (layoutSize - nCarriers) / 2;
         setAgPos(aId, x+aId, 1);
     }
@@ -43,6 +40,7 @@ public class HospitalModel extends GridWorldModel {
         return x >= 0 && y >= 0
                 && x < layoutSize
                 && y < layoutSize
+                && isFreeOfObstacle(new Location(x, y))
                 && !visited[x][y];
     }
 
@@ -133,4 +131,12 @@ public class HospitalModel extends GridWorldModel {
         setAgPos(ag.getId(), l);
     }
 
+    public void placeWalls(int times) {
+        for(int i = 0; i < times; i++) {
+            Random r = new Random();
+            int x = r.nextInt(layoutSize - 5);
+            int y = r.nextInt(layoutSize - 2);
+            addWall(x, y+1, x+3, y + 1);
+        }
+    }
 }
