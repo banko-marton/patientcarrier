@@ -71,8 +71,7 @@ public class HospitalEnvironment extends Environment {
 
 
         hospitalModel = new HospitalModel(hospitalSize, numOfCarriers);
-        hospitalView = new HospitalView(hospitalModel);
-        hospitalView.setEnv(this);
+
         // placing the front door
         reception = new Reception(20);
         receptionPosition = new Location(hospitalSize / 2, 0);
@@ -96,6 +95,9 @@ public class HospitalEnvironment extends Environment {
             hospitalModel.placeAgent(i);
             carrierAgents.add(new Carrier(i, new Location(x+i, 1)));
         }
+
+        hospitalView = new HospitalView(hospitalModel);
+        hospitalView.setEnv(this);
 
         clearAllPercepts();
     }

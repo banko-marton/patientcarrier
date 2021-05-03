@@ -33,6 +33,7 @@ public class HospitalModel extends GridWorldModel {
     }
 
     public void placeAgent(int aId){
+        System.out.println("Placed agent with id " + aId);
         int x = (layoutSize - nCarriers) / 2;
         setAgPos(aId, x+aId, 1);
     }
