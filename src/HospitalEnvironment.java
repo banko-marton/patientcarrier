@@ -74,6 +74,8 @@ public class HospitalEnvironment extends Environment {
 
         // placing the front door
         reception = new Reception(20);
+        for(Patient p : reception.getWaitingPatients())
+            addPercept("testManager", Literal.parseLiteral("newPatient(" + p.getId() +"," + p.getId() +","+ p.getType() + ")"));
         receptionPosition = new Location(hospitalSize / 2, 0);
         hospitalModel.placeReception(receptionPosition);
         // placing the departments randomly
@@ -83,6 +85,7 @@ public class HospitalEnvironment extends Environment {
         for(SicknessType depType : SicknessType.values()){
             Department department = new Department(depType);
             Location depPos = hospitalModel.placeDepartment(depID++);
+            System.out.println("Department Position: " + depPos.x + ", " + depPos);
             departments.put(department, depPos);
             routesFromReception.put(department, hospitalModel.findShortestPathFromReception(depPos));
         }
@@ -96,8 +99,8 @@ public class HospitalEnvironment extends Environment {
             carrierAgents.add(new Carrier(i, new Location(x+i, 1)));
         }
 
-        hospitalView = new HospitalView(hospitalModel);
-        hospitalView.setEnv(this);
+        hospitalView = new HospitalView(hospitalModel, this);
+        //hospitalView.setEnv(this);
 
         clearAllPercepts();
     }

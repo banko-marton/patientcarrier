@@ -30,4 +30,8 @@ public class Reception implements HospitalElement {
         patient.setId(idCounter++);
         waitingPatients.add(patient);
     }
+
+    public LinkedList<Patient> getWaitingPatients() {
+        return waitingPatients;
+    }
 }
