@@ -43,7 +43,6 @@ public class HospitalModel extends GridWorldModel {
         return x >= 0 && y >= 0
                 && x < layoutSize
                 && y < layoutSize
-                && isFreeOfObstacle(x, y)
                 && !visited[x][y];
     }
 
