@@ -1,7 +1,6 @@
 import jason.environment.grid.GridWorldModel;
 import jason.environment.grid.GridWorldView;
 import jason.environment.grid.Location;
-import javafx.util.Pair;
 
 import javax.swing.*;
 import javax.swing.text.Position;
