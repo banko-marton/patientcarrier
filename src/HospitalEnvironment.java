@@ -72,6 +72,7 @@ public class HospitalEnvironment extends Environment {
 
         hospitalModel = new HospitalModel(hospitalSize, numOfCarriers);
 
+
         // placing the front door
         reception = new Reception(20, this);
         receptionPosition = new Location(hospitalSize / 2, 0);
@@ -97,10 +98,11 @@ public class HospitalEnvironment extends Environment {
             carrierAgents.add(new Carrier(i, new Location(x+i, 1)));
         }
 
+
         hospitalView = new HospitalView(hospitalModel, this);
         //hospitalView.setEnv(this);
 
-        clearAllPercepts();
+        //clearAllPercepts();
     }
 
     @Override
@@ -135,8 +137,10 @@ public class HospitalEnvironment extends Environment {
     }
 
     public void advertisePatient(Patient p ) {
-        if(p != null)
-            addPercept("testManager", Literal.parseLiteral("newPatient(" + p.getId() +"," + p.getId() +","+ p.getType() + ")"));
+        if(p != null) {
+            System.out.println("addPercept lefut");
+            addPercept("testManager", Literal.parseLiteral("newPatient(" + p.getId() + "," + p.getId() + ",\"" + p.getType() + "\")"));
+        }
     }
 
     public void addPatient(SicknessType type){
