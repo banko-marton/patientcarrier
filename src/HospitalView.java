@@ -12,17 +12,59 @@ import java.util.*;
 
 public class HospitalView extends GridWorldView {
     private HospitalEnvironment env;
+    private JPanel sidepanel;
 
-    public HospitalView(GridWorldModel model) {
+    public HospitalView(GridWorldModel model, HospitalEnvironment env) {
         super(model, "Hospital Logistics", 600);
         this.model = (HospitalModel) model;
+        this.env = env;
+
+        sidepanel = new JPanel();
+        BoxLayout layout = new BoxLayout(sidepanel, BoxLayout.PAGE_AXIS);
+        sidepanel.setLayout(layout);
+        updateSidePanel();
+
         setVisible(true);
         repaint();
     }
 
+    private void updateSidePanel(){
+
+        BorderLayout layout = (BorderLayout) getContentPane().getLayout();
+        Component toRemove = layout.getLayoutComponent(BorderLayout.WEST);
+        if (toRemove != null)
+            getContentPane().remove(toRemove);
+
+        sidepanel.removeAll();
+        BoxLayout layoutmgr = new BoxLayout(sidepanel, BoxLayout.PAGE_AXIS);
+        sidepanel.setLayout(layoutmgr);
+        sidepanel.add(Box.createRigidArea(new Dimension(0,15)));
+        sidepanel.add(new JLabel("Department capacities:"));
+        sidepanel.add(Box.createRigidArea(new Dimension(0,5)));
+        JPanel capacities = updateCapacities();
+        sidepanel.add(capacities);
+
+        sidepanel.add(Box.createRigidArea(new Dimension(0,15)));
+        sidepanel.add(new JLabel("Status of Carrier Agents:"));
+        sidepanel.add(Box.createRigidArea(new Dimension(0,5)));
+        JPanel agentStatus = updateStatus();
+        sidepanel.add(agentStatus);
+
+        getContentPane().add(sidepanel, BorderLayout.WEST);
+        Dimension windowsize = getMinimumSize();
+        Dimension sidebarsize = getMinimumSize();
+        getContentPane().setMinimumSize(new Dimension(windowsize.width + sidebarsize.width, windowsize.height + sidebarsize.height));
+        getContentPane().setMaximumSize(new Dimension(windowsize.width + sidebarsize.width, windowsize.height + sidebarsize.height));
+        getContentPane().setPreferredSize(new Dimension(windowsize.width + sidebarsize.width, windowsize.height + sidebarsize.height));
+    }
+
     private JPanel updateCapacities(){
         JPanel panel = new JPanel();
+        BoxLayout layoutmgr = new BoxLayout(panel, BoxLayout.PAGE_AXIS);
+        panel.setLayout(layoutmgr);
+        System.out.println(env == null);
         HashMap<Department, Location> asd = env.getDepartments();
+        System.out.println(asd == null);
         if(asd == null) return panel;
         Set<Department> departments = asd.keySet();
 
@@ -34,6 +76,8 @@ public class HospitalView extends GridWorldView {
 
     private JPanel updateStatus(){
         JPanel panel = new JPanel();
+        BoxLayout layoutmgr = new BoxLayout(panel, BoxLayout.PAGE_AXIS);
+        panel.setLayout(layoutmgr);
         ArrayList<Carrier> carriers = env.getCarrierAgents();
         for(Carrier c : carriers){
             String s = "Carrier #" + c.getId() + " is currently";
@@ -58,20 +102,15 @@ public class HospitalView extends GridWorldView {
         }
 
         JPanel sp = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        sidepanel = sp;
         sp.setBorder(BorderFactory.createEtchedBorder());
         sp.add(new JLabel("Add new Patient:"));
         sp.add(new JLabel("Choose the illness type"));
         sp.add(illnessTypes);
-        JButton addPatient = new JButton();
+        JButton addPatient = new JButton("Add");
         sp.add(addPatient);
 
-        sp.add(new JLabel("Department capacities:"));
-        //JPanel capacities = updateCapacities();
-        //sp.add(capacities);
 
-        sp.add(new JLabel("Status of Carrier Agents:"));
-        //JPanel agentStatus = updateStatus();
-        //sp.add(agentStatus);
 
         JPanel p = new JPanel();
 

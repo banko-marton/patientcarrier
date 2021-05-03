@@ -3,9 +3,11 @@ import java.util.Random;
 
 public class Reception implements HospitalElement {
     private LinkedList<Patient> waitingPatients;
+    private HospitalEnvironment env;
     private long idCounter;
 
-    public Reception(int nInitPatients){
+    public Reception(int nInitPatients, HospitalEnvironment environment){
+        env = environment;
         waitingPatients = new LinkedList<>();
         // generate patients
 
@@ -17,17 +19,27 @@ public class Reception implements HospitalElement {
             waitingPatients.add(patient);
         }
         idCounter = nInitPatients;
+
+        // advertising first patient
+        env.advertisePatient(waitingPatients.peekFirst());
     }
     @Override
     public Patient takePatient() {
         if(waitingPatients.isEmpty())
             return null;
-        return waitingPatients.removeFirst();
+
+        Patient takenPatient = waitingPatients.removeFirst();
+        env.advertisePatient(waitingPatients.peekFirst());
+        return takenPatient;
     }
 
     @Override
     public void placePatient(Patient patient) {
         patient.setId(idCounter++);
+        boolean queueWasEmpty = waitingPatients.isEmpty();
         waitingPatients.add(patient);
+        if(queueWasEmpty)
+            env.advertisePatient(waitingPatients.peekFirst());
     }
+
 }
