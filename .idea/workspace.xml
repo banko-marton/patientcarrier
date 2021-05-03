@@ -2,24 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a09154d-851c-4cb8-9a01-70ffd942aa9d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/patient-carrier.mas2j" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/asl/r1.asl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/asl/testManager.asl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/env/HospitalEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HospitalEnvironment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/env/HospitalView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HospitalView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/model/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Department.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/model/HospitalModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HospitalModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/model/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Patient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/model/Reception.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Reception.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/model/agents/Carrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Carrier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/model/agents/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/model/utils/HospitalElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HospitalElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/model/utils/QItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/model/utils/SicknessType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SicknessType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.stop___MAS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bin/build.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/Carrier.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/Carrier.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/Department.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/Department.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/HospitalElement.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/HospitalElement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/HospitalEnvironment.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/HospitalEnvironment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/HospitalModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/HospitalModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/HospitalView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/HospitalView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/HospitalView.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/HospitalView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/Manager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/Manager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/Patient$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/Patient$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/Patient.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/Patient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/QItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/QItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/Reception.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/Reception.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/classes/SicknessType.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/classes/SicknessType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Carrier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Carrier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HospitalEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HospitalEnvironment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HospitalModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HospitalModel.java" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +40,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1rU5hsaH33Oky8yH7ZfQ98N2jKp" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -51,19 +57,9 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -95,5 +91,22 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/HospitalView.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/HospitalEnvironment.java</url>
+          <line>120</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

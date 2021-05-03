@@ -5,19 +5,15 @@
 //Initial beliefs 
 
 
-at(P) :- pos(P,X,Y) & pos(r1,X,Y).
-
-pos(base, 9, 9).
+at(P) :- pos(P,X,Y) & pos(r0,X,Y).
 
 
 //itt legyen szám, hogy milyen messze kell vinni (v. hova)
 //!handle(patient, dist).
 
-+!handle(patient, LocTo) : true <- +testBelief(1,2,3);
++!handle(PatientId, LocTo) <-
 !at(base);
 !take(patient, LocTo).
-
-+!handle(PatientId, LocTo) <- .print("asd").
 
 
 //Lépkedő

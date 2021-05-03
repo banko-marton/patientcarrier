@@ -32,7 +32,7 @@ public class HospitalModel extends GridWorldModel {
 
     public void placeAgent(int aId){
         int x = (layoutSize - nCarriers) / 2;
-        setAgPos(aId, x+aId, 1);
+        setAgPos(aId, x+aId, 5);
     }
 
     private boolean isValid(int x, int y, boolean[][] visited)
@@ -129,6 +129,7 @@ public class HospitalModel extends GridWorldModel {
 
     public void moveAgent(Carrier ag, Location l){
         setAgPos(ag.getId(), l);
+        ag.currentPosition = l;
     }
 
     public void placeWalls(int times) {

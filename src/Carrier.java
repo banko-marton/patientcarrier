@@ -2,9 +2,9 @@ import jason.environment.grid.Location;
 
 
 public class Carrier {
-    private int id;
+    public int id;
     private Patient takenPatient = null;
-    private Location currentPosition;
+    public Location currentPosition;
     private HospitalElement destination = null;
     private int takenSteps;
     static private int speed = 200;
@@ -26,5 +26,6 @@ public class Carrier {
         }
         return -1L;
     }
+
 
 }

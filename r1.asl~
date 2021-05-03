@@ -13,9 +13,11 @@ pos(base, 9, 9).
 //itt legyen szám, hogy milyen messze kell vinni (v. hova)
 //!handle(patient, dist).
 
-+!handle(patient, LocTo)[source(self)] <- +testBelief(1,2,3);
++!handle(patient, LocTo) : true <- +testBelief(1,2,3);
 !at(base);
 !take(patient, LocTo).
+
++!handle(PatientId, LocTo) <- .print("asd").
 
 
 //Lépkedő
