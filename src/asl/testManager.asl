@@ -9,7 +9,7 @@ NP = NO + NR.
 /* Initial goals */
 !startCNP(1,fix(computer_123)).
 
-//!newPatient(1, 1, 0, 1).
+//!newPatient(1, 1, 12).
 
 
 /* Plans */

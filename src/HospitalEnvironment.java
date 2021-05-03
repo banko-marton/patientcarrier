@@ -139,7 +139,7 @@ public class HospitalEnvironment extends Environment {
         Patient p = new Patient(age, type);
         reception.placePatient(p);
 
-        addPercept("testManager", Literal.parseLiteral("newPatient(" + p.getId() +"," + p.getId() +","+ p.getType() + ")"));
+        addPercept("testManager", Literal.parseLiteral("newPatient(" + p.getId() +"," + p.getId() +",\""+ p.getType() + "\")"));
     }
 
 }
