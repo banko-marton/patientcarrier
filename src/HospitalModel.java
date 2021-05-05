@@ -45,7 +45,7 @@ public class HospitalModel extends GridWorldModel {
     }
 
     private QItem findShortestPath(Location from, Location to){
-        QItem source = new QItem(from.y, from.x, 0);
+        QItem source = new QItem(from.y, from.x, 0, null);
         Queue<QItem> queue = new LinkedList<>();
         queue.add(source);
 
@@ -62,33 +62,50 @@ public class HospitalModel extends GridWorldModel {
             // moving up
             if (isValid(p.row - 1, p.col, visited)) {
                 queue.add(new QItem(p.row - 1, p.col,
-                        p.dist + 1));
+                        p.dist + 1, p));
                 visited[p.row - 1][p.col] = true;
             }
 
             // moving down
             if (isValid(p.row + 1, p.col, visited)) {
                 queue.add(new QItem(p.row + 1, p.col,
-                        p.dist + 1));
+                        p.dist + 1, p));
                 visited[p.row + 1][p.col] = true;
             }
 
             // moving left
             if (isValid(p.row, p.col - 1, visited)) {
                 queue.add(new QItem(p.row, p.col - 1,
-                        p.dist + 1));
+                        p.dist + 1, p));
                 visited[p.row][p.col - 1] = true;
             }
 
             // moving right
             if (isValid(p.row - 1, p.col + 1, visited)) {
                 queue.add(new QItem(p.row, p.col + 1,
-                        p.dist + 1));
+                        p.dist + 1, p));
                 visited[p.row][p.col + 1] = true;
             }
         }
         return null;
     }
+
+    public  ArrayList<Location> findShortestPathToReception(Location from){
+        QItem pathFromAgToRec = findShortestPath(from, receptionPosition);
+        if(pathFromAgToRec == null){
+            System.out.println("ERROR: No route exists from Agent to Reception, shutting down.");
+            assert(true);
+        }
+
+        ArrayList<Location> firstHalf = new ArrayList<>();
+        while(pathFromAgToRec != null){
+            firstHalf.add(new Location(pathFromAgToRec.col, pathFromAgToRec.row));
+            pathFromAgToRec = pathFromAgToRec.parent;
+        }
+        Collections.reverse(firstHalf);
+        return firstHalf;
+    }
+
 
     public ArrayList<Location> findShortestPathFromReception(Location to){
         QItem path = findShortestPath(receptionPosition, to);
@@ -101,6 +118,7 @@ public class HospitalModel extends GridWorldModel {
             route.add(new Location(path.col, path.row));
             path = path.parent;
         }
+        Collections.reverse(route);
         return route;
     }
 
@@ -119,6 +137,7 @@ public class HospitalModel extends GridWorldModel {
             firstHalf.add(new Location(pathFromAgToRec.col, pathFromAgToRec.row));
             pathFromAgToRec = pathFromAgToRec.parent;
         }
+        Collections.reverse(firstHalf);
         firstHalf.addAll(secondHalf);
         return firstHalf;
     }

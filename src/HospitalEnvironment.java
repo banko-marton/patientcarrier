@@ -3,10 +3,8 @@ import jason.asSyntax.Structure;
 import jason.environment.Environment;
 import jason.environment.grid.Location;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-
+import javax.swing.*;
+import java.util.*;
 
 
 public class HospitalEnvironment extends Environment {
@@ -28,6 +26,7 @@ public class HospitalEnvironment extends Environment {
     private HashMap<Department, Location> departments;
     private HashMap<Location, Department> locToDep;
     private HashMap<Department, ArrayList<Location>> routesFromReception;
+    private HashMap<Carrier, ArrayList<Location>> carrierTask;
     private Location receptionPosition;
     private ArrayList<Carrier> carrierAgents;
     private Manager managerAgent;
@@ -95,6 +94,7 @@ public class HospitalEnvironment extends Environment {
         // initializing Agents
         managerAgent = new Manager(0);
         carrierAgents = new ArrayList<>();
+        carrierTask = new HashMap<>();
         for(int i=0; i<numOfCarriers; i++){
             int x = (hospitalSize - numOfCarriers) / 2;
             hospitalModel.placeAgent(i);
@@ -119,11 +119,60 @@ public class HospitalEnvironment extends Environment {
 
         //az agent hív egy move_towards(X,Y)-t, ekkor az env-nek egyet kell léptetni a jó irányba
         if(act.toString().contains("move_towards")) {
-            //melyik agent
+            // retrieving the selected carrier
             Carrier c = carrierAgents.get(Integer.parseInt(agName.substring(1))-1);
+            // getting its destination which can be {reception, department}
+            int x = Integer.parseInt(act.toString().substring(act.toString().indexOf('(')+1, act.toString().indexOf(',')));
+            int y = Integer.parseInt(act.toString().substring(act.toString().indexOf(',')+1, act.toString().indexOf(')')));
+            Location destination = new Location(x,y);
+            /// debug
+            System.out.println("Agents's destination: { " + x + ", " + y + " }");
+            System.out.println("Agents's position: { " + c.currentPosition.x + ", " + c.currentPosition.y + " }");
+            Location step = null;
+            // if we have already assigned a task for the carrier we should move it to the next step
+            if (carrierTask.containsKey(c)) {
+                step = carrierTask.get(c).remove(0);
+            }
+            // if not then, calculate the route, and assign the task, and pop the first element
+            else {
+                /// check whether the destination is the reception or it is a department
+                // we need to go to the reception first
+                if(destination.equals(receptionPosition)){
+                    ArrayList<Location> route = hospitalModel.findShortestPathToReception(c.currentPosition);
+                    carrierTask.put(c, route);
+                    // popping the first pos, which is the agent's initial pos
+                    carrierTask.get(c).remove(0);
+                    step = carrierTask.get(c).remove(0);
+                }
+                // we are heading to the department
+                else {
+                    // check which department is the destination
+                    Department d = null;
+                    for (Map.Entry<Department, Location> e : departments.entrySet()){
+                        if(e.getValue().equals(destination))
+                            d = e.getKey();
+                    }
+
+                    carrierTask.put(c, routesFromReception.get(d));
+                    // popping the first pos, which is the agent's initial pos
+                    carrierTask.get(c).remove(0);
+                    step = carrierTask.get(c).remove(0);
+                }
+            }
+            System.out.println("Next step leads to: { " + step.x + ", " + step.y + " }");
+            hospitalModel.moveAgent(c, step);
+            addPercept(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
+            System.out.println(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
+            result = true;
+
+
+            /*//melyik agent
+            Carrier c = carrierAgents.get(Integer.parseInt(agName.substring(1))-1);
+            System.out.println("Agent name: " + agName.substring(1));
             //destination parse
             int x = Integer.parseInt(act.toString().substring(act.toString().indexOf('(')+1, act.toString().indexOf(',')));
             int y = Integer.parseInt(act.toString().substring(act.toString().indexOf(',')+1, act.toString().indexOf(')')));
+            System.out.println("Agents's destination: { " + x + ", " + y + " }");
 
             //ebben tároljuk az útovnalat
             ArrayList<Location> steps;
@@ -141,17 +190,24 @@ public class HospitalEnvironment extends Environment {
                      steps) {
                     System.out.println(l);
                 }
-                nextLoc = steps.get(steps.size() - 2);
+                Collections.reverse(steps);
+                nextLoc = steps.remove(0);
             }else {
-                steps = hospitalModel.findShortestPath(c.currentPosition, locToDep.get(new Location(x, y)));
-                nextLoc = steps.get(1);
+                steps = routesFromReception.get(locToDep.get(new Location(x, y)));
+                System.out.println("next");
+                nextLoc = steps.remove(0);
             }
             System.out.println(nextLoc);
 
             hospitalModel.moveAgent(c, nextLoc);
             addPercept(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
             System.out.println(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
-            return true;
+            return true;*/
+        }
+        else if(act.toString().contains("arrived")){
+            Carrier c = carrierAgents.get(Integer.parseInt(agName.substring(1))-1);
+            carrierTask.remove(c);
+            result = true;
         }
 
         if (result) {
@@ -166,7 +222,7 @@ public class HospitalEnvironment extends Environment {
     }
 
     private void updateBelief(){
-        clearAllPercepts();
+        //clearAllPercepts();
 
 
 
