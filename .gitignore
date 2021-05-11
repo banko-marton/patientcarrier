@@ -4,3 +4,4 @@ bin
 *.class
 .idea
 patient-carrier.iml
+.DS_Store
