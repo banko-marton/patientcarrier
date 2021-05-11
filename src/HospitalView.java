@@ -168,15 +168,18 @@ public class HospitalView extends GridWorldView {
         g.drawString("R", x * cellSizeW, y * cellSizeH);
 
         updateSidePanel();
+        //drawAgent(g, x, y, Color.BLUE, object);
         /*updating panels...*/
     }
 
     @Override
     public void drawAgent(Graphics g, int x, int y, Color c, int id) {
-        if (id < 0) return;
+        ArrayList<Carrier> ac = env.getCarrierAgents();
+        if (id < 0 || id >= ac.size()) return;
         g.setColor(Color.BLUE);
         g.fillOval(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
-        ArrayList<Carrier> ac = env.getCarrierAgents();
+
+
         Carrier carrier = ac.get(id);
 
         if (carrier.getTakenId() != -1L) {

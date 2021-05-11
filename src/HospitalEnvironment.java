@@ -24,7 +24,6 @@ public class HospitalEnvironment extends Environment {
 
 
     private HashMap<Department, Location> departments;
-    private HashMap<Location, Department> locToDep;
     private HashMap<Department, ArrayList<Location>> routesFromReception;
     private HashMap<Carrier, ArrayList<Location>> carrierTask;
     private Location receptionPosition;
@@ -34,43 +33,14 @@ public class HospitalEnvironment extends Environment {
 
     private HospitalModel hospitalModel;
 
-    /*public HospitalEnvironment(int hospitalSize, int numOfCarriers){
-        hospitalModel = new HospitalModel(hospitalSize, numOfCarriers);
-        // placing the front door
-        reception = new Reception(20);
-        receptionPosition = new Location(hospitalSize / 2, 0);
-        hospitalModel.placeReception(receptionPosition);
-        // placing the departments randomly
-        departments = new HashMap<>();
-        routesFromReception = new HashMap<>();
-        int depID = 0;
-        for(SicknessType depType : SicknessType.values()){
-            Department department = new Department(depType);
-            Location depPos = hospitalModel.placeDepartment(depID++);
-            departments.put(department, depPos);
-            routesFromReception.put(department, hospitalModel.findShortestPathFromReception(depPos));
-        }
 
-        // initializing Agents
-        managerAgent = new Manager(0);
-        carrierAgents = new ArrayList<>();
-        for(int i=0; i<numOfCarriers; i++){
-            int x = (hospitalSize - numOfCarriers) / 2;
-            hospitalModel.placeAgent(i+1);
-            carrierAgents.add(new Carrier(i+1, new Location(x+i, 1)));
-        }
-    }*/
     HospitalView hospitalView;
 
     @Override
     public void init(String[] args) {
 	int hospitalSize = 24;
 	int numOfCarriers = 1;
-
-
         hospitalModel = new HospitalModel(hospitalSize, numOfCarriers);
-
-
         // placing the front door
         reception = new Reception(20, this);
         receptionPosition = new Location(hospitalSize / 2, 0);
@@ -80,14 +50,12 @@ public class HospitalEnvironment extends Environment {
 
         // placing the departments randomly
         departments = new HashMap<>();
-        locToDep = new HashMap<>();
         routesFromReception = new HashMap<>();
         int depID = 0;
         for(SicknessType depType : SicknessType.values()){
             Department department = new Department(depType);
             Location depPos = hospitalModel.placeDepartment(depID++);
             departments.put(department, depPos);
-            locToDep.put(depPos, department);
             routesFromReception.put(department, hospitalModel.findShortestPathFromReception(depPos));
         }
 
@@ -165,44 +133,6 @@ public class HospitalEnvironment extends Environment {
             System.out.println(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
             result = true;
 
-
-            /*//melyik agent
-            Carrier c = carrierAgents.get(Integer.parseInt(agName.substring(1))-1);
-            System.out.println("Agent name: " + agName.substring(1));
-            //destination parse
-            int x = Integer.parseInt(act.toString().substring(act.toString().indexOf('(')+1, act.toString().indexOf(',')));
-            int y = Integer.parseInt(act.toString().substring(act.toString().indexOf(',')+1, act.toString().indexOf(')')));
-            System.out.println("Agents's destination: { " + x + ", " + y + " }");
-
-            //ebben tároljuk az útovnalat
-            ArrayList<Location> steps;
-
-            //ez a következő lépés
-            Location nextLoc;
-
-            //ha a destionation nem department akkor csak a recepció lehet
-            if (!locToDep.containsKey(new Location(x, y))) {
-                //TODO
-                //ez itt nekem mindig csak az agent pozícióját tartalmazza
-                steps = hospitalModel.findShortestPathFromReception(c.currentPosition);
-                System.out.println("Path from agent to reception");
-                for (Location l:
-                     steps) {
-                    System.out.println(l);
-                }
-                Collections.reverse(steps);
-                nextLoc = steps.remove(0);
-            }else {
-                steps = routesFromReception.get(locToDep.get(new Location(x, y)));
-                System.out.println("next");
-                nextLoc = steps.remove(0);
-            }
-            System.out.println(nextLoc);
-
-            hospitalModel.moveAgent(c, nextLoc);
-            addPercept(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
-            System.out.println(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
-            return true;*/
         }
         else if(act.toString().contains("arrived")){
             Carrier c = carrierAgents.get(Integer.parseInt(agName.substring(1))-1);
