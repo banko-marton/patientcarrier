@@ -1,0 +1,6 @@
+/bin
+*/bin
+bin
+*.class
+.idea
+patient-carrier.iml
