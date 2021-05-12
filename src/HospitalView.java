@@ -79,13 +79,14 @@ public class HospitalView extends GridWorldView {
         panel.setLayout(layoutmgr);
         ArrayList<Carrier> carriers = env.getCarrierAgents();
         for(Carrier c : carriers){
-            String s = "Carrier #" + c.getId() + " is currently";
+            String s = "<html><br>Carrier #" + c.getId() + " is currently<br>";
             if(c.getTakenId() != -1L){
                 s += " carrying Patient#" + c.getTakenId();
             }
             else{
                 s += " waiting";
             }
+            s += "</html>";
             panel.add(new JLabel(s));
         }
         return panel;

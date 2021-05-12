@@ -5,9 +5,9 @@ MAS patientCarrier {
 	environment: HospitalEnvironment(gui)
 
 	agents:
-		r1;
+		carrier #5;
 		testManager;
 
 	aslSourcePath:
-		"src/asl";
+		"src";
 }

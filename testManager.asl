@@ -16,12 +16,12 @@ at(Ana, x, y).
 
 //A new patient arrives
 +newPatient(CNPId, PatientId, LocTo)
-<- .wait(2000);
+<- .wait(10);
 +auction_state(CNPId, propose);
 .findall(Name,introduction(carrier,Name),LP);
 .send(LP,tell,bidPatient(CNPId, PatientId, LocTo));
 .concat("+!contract(",CNPId,")",Event);
-.at("now +1 seconds", Event).
+.at("now +100 milliseconds", Event).
 
 // receive proposal
 // if all proposal have been received, don�t wait for the deadline
