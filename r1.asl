@@ -7,38 +7,32 @@
 
 at(P) :- pos(P,X,Y) & pos(r0,X,Y).
 
-
-//itt legyen szám, hogy milyen messze kell vinni (v. hova)
-//!handle(patient, dist).
++!handle(PatientId, LocTo) : handling <- !handle(PatientId, LocTo).
 
 +!handle(PatientId, LocTo) <-
-!at(base);
-!take(patient, LocTo).
++handling;
+.print("Handling patient ", PatientId, " destination: ", LocTo);
+!at("Reception");
+!at(LocTo);
+-handling.
 
 
 //Lépkedő
-+!at(L) : at(L).
++!at(L) : at(L) <-
+.print("Arrived at ", L);
+arrived;
+if(L == "Reception") {pickup;}
+else {drop;}.
+
 +!at(L) <- ?pos(L,X,Y);
            move_towards(X,Y);
            !at(L).
 		   
-+!take(S,L) : true
-   <- !ensure_pick(S);
-      !at(L);
-      drop(S).
-
-+!ensure_pick(S) : garbage(r1)
-   <- pick(garb);
-      !ensure_pick(S).
-+!ensure_pick(_).
-
-
 
 dist(base, 10).
 dist(dest, 20).
 
-// gets the price for the product,
-// (a random value between 100 and 110).
+
 price(Task,X) :- dist(base, B) & dist(dest, D) & X = B + D.
 
 plays(initiator,testManager).
@@ -68,39 +62,3 @@ plays(initiator,testManager).
         <- .print("I lost CNP ",CNPId, ".");
 -proposal(CNPId,_,_). // clear memory
 
-		   
-/*
-//Initial goal 
-
-//!handle(patient).
-
-
-!check(slots).
-
-//Plans 
-
-
-+!check(slots) : not garbage(r1)
-   <- next(slot);
-      !check(slots).
-+!check(slots).
-
-
-@lg[atomic]
-+garbage(r1) : not .desire(carry_to(r2))
-   <- !carry_to(r2).
-
-+!carry_to(R)
-   <- // remember where to go back
-      ?pos(r1,X,Y);
-      -+pos(last,X,Y);
-
-      // carry garbage to r2
-      !take(garb,R);
-
-      // goes back and continue to check
-      !at(last);
-      !check(slots).
-
-
-*/

@@ -21,7 +21,7 @@ at(Ana, x, y).
 .findall(Name,introduction(carrier,Name),LP);
 .send(LP,tell,bidPatient(CNPId, PatientId, LocTo));
 .concat("+!contract(",CNPId,")",Event);
-.at("now +4 seconds", Event).
+.at("now +1 seconds", Event).
 
 // receive proposal
 // if all proposal have been received, don�t wait for the deadline
