@@ -34,6 +34,7 @@ public class Patient {
         TimerTask task = new TimerTask() {
             public void run() {
                 department.patientHealed(id);
+                System.out.println("Patient healed.");
             }
         };
 

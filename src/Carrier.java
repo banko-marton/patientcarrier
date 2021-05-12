@@ -22,8 +22,8 @@ public class Carrier {
     }
 
     public void dropPatient(){
-        HospitalElement to = environment.getHEfromPosition(currentPosition);
-        to.placePatient(takenPatient);
+        Department to = (Department) environment.getHEfromPosition(currentPosition);
+        takenPatient.hospitalized(to);
         takenPatient = null;
     }
 
