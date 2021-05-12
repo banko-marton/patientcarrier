@@ -156,7 +156,7 @@ public class HospitalView extends GridWorldView {
             g.setColor(Color.ORANGE);
             g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
             g.setColor(Color.BLUE);
-            g.drawString(SicknessType.values()[i++].name().substring(0, 2), x * cellSizeW, y * cellSizeH);
+            g.drawString(p.getKey().getDepartmentType().name().substring(0, 2), x * cellSizeW, y * cellSizeH);
         }
 
         Location rec = env.getReceptionPosition();

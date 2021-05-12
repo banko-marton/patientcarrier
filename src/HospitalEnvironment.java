@@ -39,10 +39,10 @@ public class HospitalEnvironment extends Environment {
     @Override
     public void init(String[] args) {
 	int hospitalSize = 24;
-	int numOfCarriers = 1;
+	int numOfCarriers = 3;
         hospitalModel = new HospitalModel(hospitalSize, numOfCarriers);
         // placing the front door
-        reception = new Reception(20, this);
+        reception = new Reception(5, this);
         receptionPosition = new Location(hospitalSize / 2, 0);
         hospitalModel.placeReception(receptionPosition);
 
@@ -58,6 +58,7 @@ public class HospitalEnvironment extends Environment {
             addPercept(Literal.parseLiteral("pos(\"" + depType.name() +"\","+ depPos.x + "," + depPos.y +")"));
             departments.put(department, depPos);
             routesFromReception.put(department, hospitalModel.findShortestPathFromReception(depPos));
+            addPercept(Literal.parseLiteral("distance(" +depType.name() + "," + (hospitalModel.findShortestPathFromReception(depPos).size()*2)+")"));
         }
 
         // initializing Agents
@@ -69,7 +70,8 @@ public class HospitalEnvironment extends Environment {
             hospitalModel.placeAgent(i);
             Location carrierLoc = new Location(x+i, 5);
             carrierAgents.add(new Carrier(i, carrierLoc, this));
-            addPercept(Literal.parseLiteral("pos(r"+ i +","+ carrierLoc.x + "," + carrierLoc.y +")"));
+            addPercept(Literal.parseLiteral("pos(carrier"+ (i+1) +","+ carrierLoc.x + "," + carrierLoc.y +")"));
+            addPercept("carrier" + (i+1), Literal.parseLiteral("bid(" + hospitalModel.findShortestPathFromReception(carrierLoc).size() + ")"));
         }
 
 
@@ -83,7 +85,7 @@ public class HospitalEnvironment extends Environment {
     public boolean executeAction(String agName, Structure act) {
         boolean result = false;
         System.out.println(agName +" doing: "+ act);
-        Carrier c = carrierAgents.get(Integer.parseInt(agName.substring(1))-1);
+        Carrier c = carrierAgents.get(Integer.parseInt(agName.substring(7))-1);
 
 
         //az agent hív egy move_towards(X,Y)-t, ekkor az env-nek egyet kell léptetni a jó irányba
@@ -96,12 +98,14 @@ public class HospitalEnvironment extends Environment {
             /// debug
             System.out.println("Agents's destination: { " + x + ", " + y + " }");
             System.out.println("Agents's position: { " + c.currentPosition.x + ", " + c.currentPosition.y + " }");
-            removePercept(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
+            removePercept(Literal.parseLiteral("pos(carrier"+ (c.id+1) +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
 
             Location step = null;
             // if we have already assigned a task for the carrier we should move it to the next step
             if (carrierTask.containsKey(c)) {
-                if(carrierTask.get(c).size() == 0) carrierTask.remove(c);
+                if(carrierTask.get(c).size() == 0){
+                    System.out.println("szia Marci");
+                    carrierTask.remove(c); return true;}
                 else step = carrierTask.get(c).remove(0);
             }
             // if not then, calculate the route, and assign the task, and pop the first element
@@ -109,8 +113,8 @@ public class HospitalEnvironment extends Environment {
                 /// check whether the destination is the reception or it is a department
                 // we need to go to the reception first
                 if(destination.equals(receptionPosition)){
-                    ArrayList<Location> route = hospitalModel.findShortestPathToReception(c.currentPosition);
-                    carrierTask.put(c, route);
+                    ArrayList<Location> route2 = hospitalModel.findShortestPathToReception(c.currentPosition);
+                    carrierTask.put(c, route2);
                     // popping the first pos, which is the agent's initial pos
                     carrierTask.get(c).remove(0);
                     step = carrierTask.get(c).remove(0);
@@ -124,7 +128,10 @@ public class HospitalEnvironment extends Environment {
                             d = e.getKey();
                     }
 
-                    carrierTask.put(c, routesFromReception.get(d));
+                    System.out.println("Carrier's goal is a department: " + d.getDepartmentType().name());
+                    ArrayList<Location> route = (ArrayList<Location>) routesFromReception.get(d).clone();
+                    System.out.println(route.size());
+                    carrierTask.put(c, route);
                     // popping the first pos, which is the agent's initial pos
                     carrierTask.get(c).remove(0);
                     step = carrierTask.get(c).remove(0);
@@ -132,8 +139,8 @@ public class HospitalEnvironment extends Environment {
             }
                 System.out.println("Next step leads to: { " + step.x + ", " + step.y + " }");
                 hospitalModel.moveAgent(c, step);
-                addPercept(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
-                System.out.println(Literal.parseLiteral("pos(r"+ c.id +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
+                addPercept(Literal.parseLiteral("pos(carrier"+ (c.id+1) +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
+                System.out.println(Literal.parseLiteral("pos(carrier"+ (c.id+1) +","+ c.currentPosition.x + "," + c.currentPosition.y +")"));
                 result = true;
 
         }
