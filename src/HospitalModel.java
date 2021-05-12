@@ -11,12 +11,14 @@ public class HospitalModel extends GridWorldModel {
     private Location receptionPosition;
     private ArrayList<Carrier> carrierAgents;
     private Manager managerAgent;
+    private HashSet<Location> obstacles;
 
     public HospitalModel(int hospitalSize, int numOfCarriers){
         // initializing the layout
         super(hospitalSize, hospitalSize, numOfCarriers);
         layoutSize = hospitalSize;
         nCarriers = numOfCarriers;
+        obstacles = new HashSet<>();
     }
 
     public void placeReception(Location pos){
@@ -24,9 +26,21 @@ public class HospitalModel extends GridWorldModel {
         add(1, pos);
     }
 
+    private Location getActuallyFreePos(){
+        while (true) {
+            Random r = new Random();
+            int x = r.nextInt(layoutSize);
+            int y = r.nextInt(layoutSize);
+            Location l = new Location(x, y);
+            if (!(obstacles.contains(new Location(x, y))))
+                return l;
+        }
+    }
+
     public Location placeDepartment(int depId){
-        Location position = getFreePos();
+        Location position = getActuallyFreePos();
         add(5+depId, position);
+        obstacles.add(position);
         return position;
     }
 
@@ -35,16 +49,22 @@ public class HospitalModel extends GridWorldModel {
         setAgPos(aId, x+aId, 5);
     }
 
-    private boolean isValid(int x, int y, boolean[][] visited)
+    private boolean isValid(int x, int y, boolean[][] visited, Location dest)
     {
+        // the x,y space in the shortest path finder and in the model are rotated by 90 deg
+        Location loc = new Location(y, x);
+
         return x >= 0 && y >= 0
                 && x < layoutSize
                 && y < layoutSize
-                && isFreeOfObstacle(new Location(x, y))
+                && !(obstacles.contains(loc)  && !dest.equals(loc))
                 && !visited[x][y];
     }
 
     private QItem findShortestPath(Location from, Location to){
+
+        System.out.println();
+        System.out.println();
         QItem source = new QItem(from.y, from.x, 0, null);
         Queue<QItem> queue = new LinkedList<>();
         queue.add(source);
@@ -60,28 +80,28 @@ public class HospitalModel extends GridWorldModel {
                 return p;
 
             // moving up
-            if (isValid(p.row - 1, p.col, visited)) {
+            if (isValid(p.row - 1, p.col, visited, to)) {
                 queue.add(new QItem(p.row - 1, p.col,
                         p.dist + 1, p));
                 visited[p.row - 1][p.col] = true;
             }
 
             // moving down
-            if (isValid(p.row + 1, p.col, visited)) {
+            if (isValid(p.row + 1, p.col, visited, to)) {
                 queue.add(new QItem(p.row + 1, p.col,
                         p.dist + 1, p));
                 visited[p.row + 1][p.col] = true;
             }
 
             // moving left
-            if (isValid(p.row, p.col - 1, visited)) {
+            if (isValid(p.row, p.col - 1, visited, to)) {
                 queue.add(new QItem(p.row, p.col - 1,
                         p.dist + 1, p));
                 visited[p.row][p.col - 1] = true;
             }
 
             // moving right
-            if (isValid(p.row - 1, p.col + 1, visited)) {
+            if (isValid(p.row - 1, p.col + 1, visited, to)) {
                 queue.add(new QItem(p.row, p.col + 1,
                         p.dist + 1, p));
                 visited[p.row][p.col + 1] = true;
@@ -157,6 +177,9 @@ public class HospitalModel extends GridWorldModel {
             int x = r.nextInt(layoutSize - 5);
             int y = r.nextInt(layoutSize - 2);
             addWall(x, y+1, x+3, y + 1);
+            for(int j = x; j < x + 4; j++){
+                obstacles.add(new Location(j, y+1));
+            }
         }
     }
 }
