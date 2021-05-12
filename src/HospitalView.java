@@ -166,7 +166,7 @@ public class HospitalView extends GridWorldView {
         g.drawString("R", x * cellSizeW, y * cellSizeH);
 
         //updateSidePanel();
-        //invokeAgentDraw();
+        invokeAgentsDraw(g);
         //drawAgent(g, x, y, Color.BLUE, object);
         /*updating panels...*/
     }
@@ -198,12 +198,22 @@ public class HospitalView extends GridWorldView {
         this.env = e;
     }
 
-    public void invokeAgentDraw(){
-        int numOfAgents = env.getCarrierAgents().size();
-        for(int i = 0; i < numOfAgents; i++){
-            Location agPos = model.getAgPos(i);
-            Graphics g = getGraphics();
-            drawAgent(g, agPos.x, agPos.y, Color.BLUE, i);
+    public void invokeAgentsDraw(Graphics g){
+        ArrayList<Carrier> agents = env.getCarrierAgents();
+
+        for(Carrier c : agents){
+            int x = c.currentPosition.x;
+            int y = c.currentPosition.y;
+            g.setColor(Color.BLUE);
+            g.fillOval(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
+
+
+            if (c.getTakenId() != -1L) {
+                g.setColor(Color.RED);
+                g.fillOval(x * cellSizeW + cellSizeW / 2, y * cellSizeH + cellSizeH / 2, cellSizeW / 2, cellSizeH / 2);
+                g.setColor(Color.WHITE);
+                g.drawString(String.valueOf(c.getTakenId()), x * cellSizeW + cellSizeW / 2, y * cellSizeH + cellSizeH / 2);
+            }
         }
     }
 }
