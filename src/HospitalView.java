@@ -29,7 +29,7 @@ public class HospitalView extends GridWorldView {
         repaint();
     }
 
-    private void updateSidePanel(){
+    public void updateSidePanel(){
 
         BorderLayout layout = (BorderLayout) getContentPane().getLayout();
         Component toRemove = layout.getLayoutComponent(BorderLayout.WEST);
@@ -51,12 +51,12 @@ public class HospitalView extends GridWorldView {
         JPanel agentStatus = updateStatus();
         sidepanel.add(agentStatus);
 
+
         getContentPane().add(sidepanel, BorderLayout.WEST);
-        Dimension windowsize = getMinimumSize();
-        Dimension sidebarsize = getMinimumSize();
-        getContentPane().setMinimumSize(new Dimension(windowsize.width + sidebarsize.width, windowsize.height + sidebarsize.height));
-        getContentPane().setMaximumSize(new Dimension(windowsize.width + sidebarsize.width, windowsize.height + sidebarsize.height));
-        getContentPane().setPreferredSize(new Dimension(windowsize.width + sidebarsize.width, windowsize.height + sidebarsize.height));
+        agentStatus.setVisible(true);
+        capacities.setVisible(true);
+        sidepanel.setVisible(true);
+        setVisible(true);
     }
 
     private JPanel updateCapacities(){
@@ -109,8 +109,6 @@ public class HospitalView extends GridWorldView {
         JButton addPatient = new JButton("Add");
         sp.add(addPatient);
 
-
-
         JPanel p = new JPanel();
 
         JPanel s = new JPanel(new BorderLayout());
@@ -156,18 +154,19 @@ public class HospitalView extends GridWorldView {
             g.setColor(Color.ORANGE);
             g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
             g.setColor(Color.BLUE);
-            g.drawString(SicknessType.values()[i++].name().substring(0, 2), x * cellSizeW, y * cellSizeH);
+            g.drawString(p.getKey().getDepartmentType().name().substring(0, 2), x * cellSizeW, y * cellSizeH);
         }
 
         Location rec = env.getReceptionPosition();
         x = rec.x;
         y = rec.y;
         g.setColor(Color.RED);
-        g.fillRect(x * cellSizeW - 5*cellSizeW, y * cellSizeH, 10*cellSizeW, cellSizeH);
+        g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
         g.setColor(Color.WHITE);
         g.drawString("R", x * cellSizeW, y * cellSizeH);
 
-        updateSidePanel();
+        //updateSidePanel();
+        //invokeAgentDraw();
         //drawAgent(g, x, y, Color.BLUE, object);
         /*updating panels...*/
     }
@@ -197,5 +196,14 @@ public class HospitalView extends GridWorldView {
 
     public void setEnv(HospitalEnvironment e){
         this.env = e;
+    }
+
+    public void invokeAgentDraw(){
+        int numOfAgents = env.getCarrierAgents().size();
+        for(int i = 0; i < numOfAgents; i++){
+            Location agPos = model.getAgPos(i);
+            Graphics g = getGraphics();
+            drawAgent(g, agPos.x, agPos.y, Color.BLUE, i);
+        }
     }
 }

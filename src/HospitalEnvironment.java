@@ -4,7 +4,9 @@ import jason.environment.Environment;
 import jason.environment.grid.Location;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
+import java.util.function.LongConsumer;
 
 
 public class HospitalEnvironment extends Environment {
@@ -106,6 +108,7 @@ public class HospitalEnvironment extends Environment {
             }
             // if not then, calculate the route, and assign the task, and pop the first element
             else {
+                System.out.println("Carrier has no active tasks, assigning a new one.");
                 /// check whether the destination is the reception or it is a department
                 // we need to go to the reception first
                 if(destination.equals(receptionPosition)){
@@ -123,8 +126,13 @@ public class HospitalEnvironment extends Environment {
                         if(e.getValue().equals(destination))
                             d = e.getKey();
                     }
-
-                    carrierTask.put(c, routesFromReception.get(d));
+                    if(d == null){
+                        System.out.println("No department was found with the location of " + destination.toString());
+                    }
+                    System.out.println("Carrier's goal is a department: " + d.getDepartmentType().name());
+                    ArrayList<Location> route = (ArrayList<Location>) routesFromReception.get(d).clone();
+                    System.out.println(route.size());
+                    carrierTask.put(c, route);
                     // popping the first pos, which is the agent's initial pos
                     carrierTask.get(c).remove(0);
                     step = carrierTask.get(c).remove(0);
@@ -143,17 +151,18 @@ public class HospitalEnvironment extends Environment {
         }
         else if(act.toString().contains("pickup")){
             c.takePatient();
+            hospitalView.updateSidePanel();
             result = true;
 
         }
         else if(act.toString().contains("drop")){
             c.dropPatient();
+            hospitalView.updateSidePanel();
             result = true;
 
         }
 
         hospitalView.repaint();
-
 
         if (result) {
             updateBelief();

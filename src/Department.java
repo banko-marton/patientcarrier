@@ -1,9 +1,11 @@
+import javax.xml.stream.Location;
 import java.util.HashSet;
 
 public class Department implements HospitalElement {
     private int maxCapacity;
     private SicknessType label;
     private HashSet<Long> patientsInCare;
+    private Location location;
 
     public Department(SicknessType label){
         this.label = label;
