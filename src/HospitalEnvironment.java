@@ -180,7 +180,7 @@ public class HospitalEnvironment extends Environment {
 
     public void advertisePatient(Patient p ) {
         if(p != null) {
-            addPercept("testManager", Literal.parseLiteral("newPatient(" + p.getId() + "," + p.getId() + ",\"" + p.getType() + "\")"));
+            addPercept("manager", Literal.parseLiteral("newPatient(" + p.getId() + "," + p.getId() + ",\"" + p.getType() + "\")"));
         }
     }
 

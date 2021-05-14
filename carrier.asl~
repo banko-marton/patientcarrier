@@ -1,11 +1,14 @@
-// mars robot 1
+queue(0).
 
++!updateBid(L) <-
+?queue(B);
+if(B == 0) {
+-bid(_);
+?distance(L, O);
++bid(O/2);
+}.
 
-
-//Initial beliefs 
-
-
-at(P) :- pos(P,X,Y) & pos(r0,X,Y).
+at(P) :- pos(P,X,Y) & .my_name(Me) & pos(Me,X,Y).
 
 +!handle(PatientId, LocTo) : handling <- !handle(PatientId, LocTo).
 
@@ -22,18 +25,24 @@ at(P) :- pos(P,X,Y) & pos(r0,X,Y).
 .print("Arrived at ", L);
 arrived;
 if(L == "Reception") {pickup;}
-else {drop;}.
+else {drop;
+?queue(A);
+-queue(_);
++queue(A-1);
+!updateBid(L);
+}.
 
 +!at(L) <- ?pos(L,X,Y);
            move_towards(X,Y);
+		   ?bid(Z)[source(self)];
+		   -bid(_)[source(self)];
+		   +bid(Z-1)[source(self)];
+		   .my_name(Me);
+		   .print(Me, " bid: ", Z-1);
            !at(L).
 		   
-
-dist(base, 10).
-dist(dest, 20).
-
-
-price(Task,X) :- dist(base, B) & dist(dest, D) & X = B + D.
+		  
+price(Task,X) :- bid(X).
 
 plays(initiator,testManager).
 
@@ -55,7 +64,17 @@ plays(initiator,testManager).
 @r1 +accept_proposal(CNPId)
 : proposal(CNPId,PatientId,LocTo,Offer)
 <- .print("My proposal ",Offer," won CNP ",CNPId,"!");
-.print("PatientId:",PatientId," LocTo:",LocTo)
+?bid(F);
+?distance(LocTo, D);
+.print("PatientId:",PatientId," LocTo:",LocTo, " Bid before: ", F, " Distance: ", D);
+-bid(_)[source(percept)];
+-bid(_)[source(self)];
++bid(F+(D));
+?queue(A);
+-queue(_);
++queue(A+1);
+?bid(K);
+.print("Bid after: ", K);
 !handle(PatientId, LocTo).				  
 				  
 @r2 +reject_proposal(CNPId)

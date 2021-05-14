@@ -6,7 +6,7 @@ MAS patientCarrier {
 
 	agents:
 		carrier #5;
-		testManager;
+		manager;
 
 	aslSourcePath:
 		"src";
